@@ -22,6 +22,22 @@ require('./config/passport')(passport);
 const users = require('./routes/api/users');
 app.use('/api/users', users);
 
+//使用模板引擎
+app.set('view engine', 'pug');
+
+//根据判断环境，设置模板缓存
+const env = process.env.NODE_ENV;
+if ('production' === env) {
+  app.enable('view cache');
+}
+
+//托管public下静态资源
+app.use(express.static(__dirname + '/public'));
+
+//路由
+app.get('/', (req, res) => {
+  res.render('index', { title: 'Hey', message: 'Hello there!' })
+})
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
