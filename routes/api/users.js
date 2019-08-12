@@ -36,7 +36,7 @@ router.post('/register', (req, res) => {
 });
 
 //登陆
-router.post('/login', (req, res) => {
+router.post('/login', (req, res, next) => {
   const { email, password } = req.body;
   //查数据
   Users.findOne({ email }).then(user => {
@@ -61,7 +61,8 @@ router.post('/login', (req, res) => {
             }
           });
         } else {
-          return res.status(400).json({ msg: '密码错误' });
+          next(1);
+          // return res.status(400).json({ msg: '密码错误' });
         }
       })
     }
